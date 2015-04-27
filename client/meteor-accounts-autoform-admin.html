@@ -1,0 +1,69 @@
+<template name="kAccountsAdminFluid">
+	<div class="container-fluid" id="kAccountsAdmin">
+	{{> kAccountsAdminPanel}}
+	</div>
+</template>
+
+<template name="kAccountsAdmin">
+	<div class="container" id="kAdmin">
+		{{> kAccountsAdminPanel}}
+	</div>
+</template>
+
+<template name="kAccountsAdminPanelCreate">
+	{{>quickForm schema=userSchema type="method" meteormethod="kCreateUser" id="kAccountsAdminPanelCreateForm" }}
+</template>
+
+<template name="kAccountsAdminPanel">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="panel">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							{{#each columns}}
+								<th class="sortable" id="{{ name }}">
+									{{ label }}
+								</th>
+							{{/each}}
+							{{#unless columns}}
+								<th>ID</th>
+							{{/unless}}
+							<th class="text-center actionHeader">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						{{#each users}}
+							<tr>
+								{{#each getAttr columns }}
+									<td>{{ this }}</td>
+								{{/each}}
+								{{#unless columns}}
+									<td>{{ _id }}</td>
+								{{/unless}}
+								<td class="text-right">
+									<div class="btn-group" role="toolbar" aria-label="Admin actions">
+										<button class="btn-group btn-info action" data-action="read">View</button>
+<!-- 										<button class="btn-group btn-warning action" data-action="update">Edit</button> -->
+										<button class="btn-group btn-danger action" data-action="delete">Delete</button>
+									</div>
+								</td>
+							</tr>
+						{{/each}}
+					</tbody>
+					<tfoot>
+						<tr>
+							{{#each columns }}
+								<th>{{ label }}</th>
+							{{/each}}
+							{{#unless columns }}
+								<th>ID</th>
+							{{/unless}}
+							<th class="text-center">Actions</th>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+	</div>
+</template>
