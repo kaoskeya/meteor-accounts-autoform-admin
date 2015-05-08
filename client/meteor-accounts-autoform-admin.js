@@ -8,7 +8,11 @@ Template.kAccountsAdminPanel.helpers({
 	getAttr: function(cols) {
 		var self = this;
 		return _.map( cols, function(col) {
-			return self[col.name]
+			if( col.name.indexOf("()") != -1 ) {
+				return self[ col.name.substr( 0, col.name.length - 2 ) ]();
+			} else {
+				return self[col.name];
+			}
 		});
 	}
 });
@@ -19,8 +23,9 @@ Template.kAccountsAdminPanel.created = function() {
 		instance.config = kAccountsAdminConfig;
 	} else {
 		instance.config = {
-			name: 'Please Configure',
-			collections: {}
+			tableColumns: [
+				{ label: 'ID', name: '_id'}
+			]
 		}
 	}
 }
@@ -37,8 +42,9 @@ Template.kAccountsAdminPanelCreate.created = function() {
 		instance.config = kAccountsAdminConfig;
 	} else {
 		instance.config = {
-			name: 'Please Configure',
-			collections: {}
+			columns: [
+				{ label: 'ID', name: '_id'}
+			]
 		}
 	}
 }
@@ -56,3 +62,46 @@ Template.kAccountsAdminPanelCreate.rendered = function() {
 		}
 	});
 }
+
+Template.kManageRoles.helpers({
+	profile: function() {
+		return JSON.stringify( this.profile, null, 4 );
+	},
+	roles: function() {
+		return Meteor.users.findOne({ _id: this._id }, { roles: 1 }).roles;
+	},
+	availableRoles: function() {
+		return _.difference( 
+			_.map(Meteor.roles.find().fetch(), function(r){ return r.name }),
+			Meteor.users.findOne({ _id: this._id }, { roles: 1 }).roles
+		);
+	}
+});
+
+Template.kManageRoles.events({
+	'click .remove-role': function(e, tmpl) {
+		Meteor.call("kRemoveRole", tmpl.data._id, $(e.target).data("role"), function(err){
+			if(err) {
+				toastr.clear();
+				toastr.error( err.message )
+			} else {
+				toastr.clear();
+				toastr.success( "User role updated successfully." )
+			}
+		});
+	},
+	'click #addRole a': function(e, tmpl) {
+		Meteor.call("kAssignRole", tmpl.data._id, e.target.text, function(err){
+			if(err) {
+				toastr.clear();
+				toastr.error( err.message )
+			} else {
+				toastr.clear();
+				toastr.success( "User role updated successfully." )
+			}
+		});
+		e.preventDefault();
+		return false;
+	},
+});
+

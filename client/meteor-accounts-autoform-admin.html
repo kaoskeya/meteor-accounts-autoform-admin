@@ -43,6 +43,7 @@
 								{{/unless}}
 								<td class="text-right">
 									<div class="btn-group" role="toolbar" aria-label="Admin actions">
+										<button class="btn-group btn-info action" data-action="custom" data-template="kManageRoles">Roles</button>
 										<button class="btn-group btn-info action" data-action="read">View</button>
 <!-- 										<button class="btn-group btn-warning action" data-action="update">Edit</button> -->
 										<button class="btn-group btn-danger action" data-action="delete">Delete</button>
@@ -64,6 +65,40 @@
 					</tfoot>
 				</table>
 			</div>
+		</div>
+	</div>
+</template>
+
+<template name="kManageRoles">
+	<h3>Manage Roles</h3>
+	<div class="row">
+		<div class="col-md-6">
+			<h4>Profile</h4>
+			<pre>{{{ profile }}}</pre>
+		</div>
+		<div class="col-md-6">
+			<h4>Roles</h4>
+			<ul class="list-group">
+			{{ #unless roles }}
+				<p><i>User is not assigned any roles yet.</i></p>
+			{{ /unless }}
+			{{ #each roles }}
+				<li class="list-group-item">
+					<button data-user-id="{{ _id }}" class="btn btn-danger btn-xs remove-role" data-role="{{ this }}" type="button">Remove</button>
+					<span class="pull-right">{{this}}</span>
+				</li>
+			{{ /each }}
+			</ul>
+
+			<button type="button" class="btn btn-default dropdown-toggle btn-block" data-toggle="dropdown" aria-expanded="false">
+			Assign Roles <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu dropdown-menu-right" role="menu" id="addRole">
+				{{#each availableRoles}}
+					<li><a href="#" data-collection="{{ this }}">{{ this }}</a></li>
+				{{/each}}
+			</ul>
+
 		</div>
 	</div>
 </template>
