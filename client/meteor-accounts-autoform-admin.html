@@ -1,6 +1,6 @@
 <template name="kAccountsAdminFluid">
 	<div class="container-fluid" id="kAccountsAdmin">
-	{{> kAccountsAdminPanel}}
+		{{> kAccountsAdminPanel}}
 	</div>
 </template>
 
@@ -44,9 +44,11 @@
 								{{/unless}}
 								<td class="text-right">
 									<div class="btn-group" role="toolbar" aria-label="Admin actions">
+										{{ #each customActions }}
+											<button class="btn-group btn-info customAction {{ class }}" data-action="custom" data-template="{{ name }}" data-id="{{ ../_id }}">{{ action }}</button>
+										{{ /each }}
 										<button class="btn-group btn-info action" data-action="custom" data-template="kManageRoles">Roles</button>
 										<button class="btn-group btn-info action" data-action="read">View</button>
-<!-- 										<button class="btn-group btn-warning action" data-action="update">Edit</button> -->
 										<button class="btn-group btn-danger action" data-action="delete">Delete</button>
 									</div>
 								</td>

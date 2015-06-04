@@ -14,6 +14,9 @@ Template.kAccountsAdminPanel.helpers({
 				return self[col.name];
 			}
 		});
+	},
+	customActions: function() {
+		return Template.instance().customActions;
 	}
 });
 
@@ -27,6 +30,12 @@ Template.kAccountsAdminPanel.created = function() {
 				{ label: 'ID', name: '_id'}
 			]
 		}
+	}
+
+	if( Template.instance().config.hasOwnProperty("templates") ) {
+		instance.customActions = Template.instance().config.templates.custom;
+	} else {
+		instance.customActions;
 	}
 }
 
