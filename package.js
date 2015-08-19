@@ -1,6 +1,6 @@
 Package.describe({
   name: 'kaoskeya:accounts-autoform-admin',
-  version: '0.0.2_1',
+  version: '0.0.2_2',
   // Brief, one-line summary of the package.
   summary: 'Manage users module for kaoskeya:admin - boostrap based admin panel.',
   // URL to the Git repository containing the source code for this package.
