@@ -89,7 +89,8 @@ Template.kManageRoles.helpers({
 
 Template.kManageRoles.events({
 	'click .remove-role': function(e, tmpl) {
-		Meteor.call("kRemoveRole", tmpl.data._id, $(e.target).data("role"), function(err){
+		var role = this;
+		Meteor.call("kRemoveRole", tmpl.data._id, role, function(err){
 			if(err) {
 				toastr.clear();
 				toastr.error( err.message )
@@ -100,7 +101,8 @@ Template.kManageRoles.events({
 		});
 	},
 	'click #addRole a': function(e, tmpl) {
-		Meteor.call("kAssignRole", tmpl.data._id, e.target.text, function(err){
+		var role = this;
+		Meteor.call("kAssignRole", tmpl.data._id, this, function(err){
 			if(err) {
 				toastr.clear();
 				toastr.error( err.message )
