@@ -1,6 +1,6 @@
 Template.kAccountsAdminPanel.helpers({
 	users: function() {
-		return Meteor.users.find();
+		return Meteor.users.find({ _id: { $ne: Meteor.userId() } });
 	},
 	columns: function() {
 		return Template.instance().config.tableColumns;
@@ -11,7 +11,12 @@ Template.kAccountsAdminPanel.helpers({
 			if( col.name.indexOf("()") != -1 ) {
 				return self[ col.name.substr( 0, col.name.length - 2 ) ]();
 			} else {
-				return self[col.name];
+				console.log( self, col, col.name, self[col.name] );
+				var val = self;
+				_.each( col.name.split("."), function(index){
+					val = val[index];
+				});
+				return val;
 			}
 		});
 	},

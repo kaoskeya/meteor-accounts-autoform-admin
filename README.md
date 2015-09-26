@@ -26,7 +26,7 @@ Configure table rows using:
 ```
 kAccountsAdminConfig = {
     tableColumns: [
-        { label: 'Name', name: 'getName()' },
+        { label: 'Name', name: 'profile.name' },
         { label: 'Roles', name: 'getRoles()' },
         { label: 'Account Type', name: 'getAccountType()' },
         { label: 'Email', name: 'getEmail()' },
